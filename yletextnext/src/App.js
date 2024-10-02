@@ -8,7 +8,7 @@ function App() {
   const [pageNumber, setPageNumber] = useState(101); // Alustetaan sivunumero 100
   const [teletextData, setTeletextData] = useState(null); // Tallennetaan API data
 
-  // Hakee Teletext-dataa Yle API:sta aina kun pageNumber muuttuu
+  // haetaan Teletext-dataa Yle API:sta aina kun pageNumber muuttuu
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,24 +27,23 @@ function App() {
     };
 
     fetchData();
-  }, [pageNumber]); // Hakee tiedot aina kun pageNumber muuttuu
+  }, [pageNumber]); // haetaan tiedot aina kun pageNumber muuttuu
 
-  // Funktio, joka tunnistaa kolminumeroiset luvut ja tekee niistä klikattavia linkkejä
+  // tunnistaa kolminumeroiset luvut ja tekee niistä klikattavia linkkejä
   const renderLineWithLinks = (text) => {
-    const regex = /(\d{3})(\/\d+)?/g; // Etsitään kolminumeroiset luvut, esim. 100, 123 jne.
+    const regex = /(\d{3,})/g; // Etsitään kolminumeroiset tai pidemmät luvut
     const parts = text.split(regex);
 
     return parts.map((part, index) => {
       if (!part) return null; // Varmistetaan, että part ei ole undefined tai null
 
-      // Jos osa on kolminumeroinen luku, tehdään siitä linkki
+      // Jos osa on kolminumeroinen luku mutta ei pidempi kuin kolme, tehdään siitä linkki, estetään täten puhelin nro:t jne
       if (/^\d{3}$/.test(part)) {
-        const newPageNumber = parseInt(part, 10);
         return (
           <span
             key={index}
             className="page-link"
-            onClick={() => setPageNumber(newPageNumber)}
+            onClick={() => setPageNumber(parseInt(part, 10))}
             style={{ color: 'cyan', cursor: 'pointer' }}
           >
             {part}
@@ -52,8 +51,8 @@ function App() {
         );
       }
 
-      // Jos osa on alasivun numero, näytetään se ilman toimintoa
-      if (part.startsWith('/') && /^\d+$/.test(part.slice(1))) {
+      // Jos osa on pidempi kuin kolme numeroa, jätetään se tavalliseksi tekstiksi
+      if (/^\d{4,}$/.test(part)) {
         return <span key={index}>{part}</span>;
       }
 
