@@ -1,0 +1,26 @@
+body {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: "Courier New", monospace;
+  margin: 0;
+  padding: 0;
+}
+
+#teletext-content {
+  width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #000000;
+  border: 2px solid #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1); /* Hienovarainen varjo tekee sisällöstä erottuvamman */
+}
+
+.teletext-line {
+  white-space: pre;
+  line-height: 0.3em; 
+  font-size: 1.1em;   
+  margin-bottom: 1.1em; 
+  letter-spacing: 0.04em; 
+}
+
