@@ -1,64 +1,96 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import LinkHandler from './LinkHandler';
 
 function App() {
-
   const appId = process.env.REACT_APP_API_ID;
   const appKey = process.env.REACT_APP_API_KEY;
 
-  const [pageNumber, setPageNumber] = useState(400); // alustetaan sivunumero 100
-  const [teletextData, setTeletextData] = useState(null); // alustetaan Teletext-data aluksi null-arvoksi, säilyttää siis haetun datan
+  const [pageNumber, setPageNumber] = useState(101); // Alustetaan sivunumero 100
+  const [teletextData, setTeletextData] = useState(null); // Tallennetaan API data
 
-  // useEffect-hookia käytetään API-kutsuihin
-  // suoritetaan aina, kun pageNumber muuttuu
+  // Hakee Teletext-dataa Yle API:sta aina kun pageNumber muuttuu
   useEffect(() => {
-    fetch(`https://external.api.yle.fi/v1/teletext/pages/${pageNumber}.json?app_id=${appId}&app_key=${appKey}`)
-      .then(response => response.json())
-      .then(data => setTeletextData(data))// tallenetaan data
-      .catch(error => console.error('Error fetching data:', error));
-  }, [pageNumber]); // suoritetaan joke kerta kun pageNumber muuttuu
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `https://external.api.yle.fi/v1/teletext/pages/${pageNumber}.json?app_id=${appId}&app_key=${appKey}`
+        );
+        if (!response.ok) {
+          throw new Error('Verkkovirhe: ' + response.statusText);
+        }
+        const data = await response.json();
+        console.log(data); // Logita data, jotta näet, mitä tietoja saat takaisin
+        setTeletextData(data);
+      } catch (error) {
+        console.error('Virhe haettaessa dataa:', error);
+      }
+    };
 
-  // käsitellään linkkien kautta navigointi
-  const handleNavigation = (linkPageNumber) => {
-    const parsedPageNumber = parseInt(linkPageNumber, 10); // muutetaan linkin numero numeroksi
-    if (!isNaN(parsedPageNumber)) { //validin varmistus
-      setPageNumber(parsedPageNumber); // päivitetään sivunmeron tilaan
-    }
+    fetchData();
+  }, [pageNumber]); // Hakee tiedot aina kun pageNumber muuttuu
+
+  // Funktio, joka tunnistaa kolminumeroiset luvut ja tekee niistä klikattavia linkkejä
+  const renderLineWithLinks = (text) => {
+    const regex = /(\d{3})(\/\d+)?/g; // Etsitään kolminumeroiset luvut, esim. 100, 123 jne.
+    const parts = text.split(regex);
+
+    return parts.map((part, index) => {
+      if (!part) return null; // Varmistetaan, että part ei ole undefined tai null
+
+      // Jos osa on kolminumeroinen luku, tehdään siitä linkki
+      if (/^\d{3}$/.test(part)) {
+        const newPageNumber = parseInt(part, 10);
+        return (
+          <span
+            key={index}
+            className="page-link"
+            onClick={() => setPageNumber(newPageNumber)}
+            style={{ color: 'cyan', cursor: 'pointer' }}
+          >
+            {part}
+          </span>
+        );
+      }
+
+      // Jos osa on alasivun numero, näytetään se ilman toimintoa
+      if (part.startsWith('/') && /^\d+$/.test(part.slice(1))) {
+        return <span key={index}>{part}</span>;
+      }
+
+      return <span key={index}>{part}</span>; // Muut osat jäävät normaaliksi tekstiksi
+    });
   };
 
+  // Näytetään kaikkien alasivujen sisältö
+  const renderTeletextContent = () => {
+    if (teletextData && teletextData.teletext && teletextData.teletext.page.subpage) {
+      return teletextData.teletext.page.subpage.map((subpage, subpageIndex) => (
+        <div key={subpageIndex} className="teletext-subpage">
+          <h2>Sivu {subpage.number}</h2>
+          {subpage.content.map((item, itemIndex) => {
+            if (item.type === 'text') {
+              return item.line.map((line, lineIndex) => (
+                <div key={`${itemIndex}-${lineIndex}`} className="teletext-line">
+                  {renderLineWithLinks(line.Text || '')} {/* Muokkaa tekstin sisältö */}
+                </div>
+              ));
+            }
+            return null;
+          })}
+        </div>
+      ));
+    }
+    return <div>Ei sisältöä saatavilla.</div>;
+  };
 
   return (
-    <div id="teletext-content">
-      <h1>YleTextNext</h1>
-
-      {/*tarkistetaan onko data ladattu */}
-      {teletextData ? (
-        <div>
-          {/*kädäydään läpi alasivut */}
-          {teletextData.teletext.page.subpage.map((subpage, index) => (
-            <div key={index}>
-              {/*suodatetaan structured-tyyppinen sisältö ja näytetään se */}
-              {subpage.content
-                .filter(item => item.type === 'structured') //näytetään vain structured-tyyppinen sisältö
-                .map((structuredContent, i) => (
-                  structuredContent.line.map((line, j) => (
-                    <LinkHandler key={j} line={line} onNavigate={handleNavigation} /> // LinkHandler käsitellee yksittäise rivit ja navigoinnin
-                  ))
-                ))}
-            </div>
-          ))}
-        </div>
-      ) : (
-        //näytettää kunnes data on ladattu
-        <p className="teletext-line">Loading...</p>
-      )}
-
-      <button onClick={() => setPageNumber(pageNumber + 1)}>Next Page</button>
+    <div className="App">
+      <h1>Teletext Viewer</h1>
+      <div id="teletext-content">
+        {renderTeletextContent()}
+      </div>
     </div>
   );
 }
-
-
 
 export default App;

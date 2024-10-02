@@ -2,49 +2,48 @@ import React from 'react';
 import './LinkHandler.css';
 
 function LinkHandler({ line, onNavigate }) {
-  // Tarkistetaan, onko line.run array
+  // Tarkistetaan, että 'run' on olemassa ja se on taulukko
   if (Array.isArray(line.run)) {
     return (
       <p className="teletext-line">
-        {/* Käydään läpi line.run array */}
         {line.run.map((segment, index) => {
-          // jos segmentissä on linkki, näytetään se erityisellä tyylillä ja navigointitoiminnolla
+          // Jos segmentissä on linkki, renderöidään se linkkinä
           if (segment.link) {
             return (
               <span
                 key={index}
                 className="teletext-link"
-                onClick={() => onNavigate(segment.link)} // navigointi kutsutaan linkin numerolla
+                onClick={() => onNavigate(segment.link)} // Navigoi linkin osoittamaan sivuun
               >
-                {segment.Text}
+                {segment.Text || segment.link}
               </span>
             );
           }
-          // jos ei ole linkkiä, näytetään teksti normaalisti
-          return <span key={index}>{segment.Text}</span>;
+          // Muuten renderöidään normaalisti
+          return <span key={index}>{segment.Text || ''}</span>;
         })}
       </p>
     );
   } else if (line.run) {
-    // jos line.run ei ole array vaan objekti, käsitellään se erikseen
+    // Käsitellään yksittäiset objektit jos 'run' ei ole taulukko
     return (
       <p className="teletext-line">
         {line.run.link ? (
           <span
             className="teletext-link"
-            onClick={() => onNavigate(line.run.link)} // navigointi kutsutaan linkin numerolla
+            onClick={() => onNavigate(line.run.link)}
           >
-            {line.run.Text}
+            {line.run.Text || line.run.link}
           </span>
         ) : (
-          <span>{line.run.Text}</span> // näytetään teksti normaalisti jos ei ole linkkiä
+          <span>{line.run.Text || ''}</span>
         )}
       </p>
     );
   }
 
-  // fallback jos run ei ole olemassa
-  return <p className="teletext-line">{line.Text}</p>;
+  // Jos 'run' ei ole olemassa tai se ei ole taulukko
+  return <p className="teletext-line">{line.Text || ''}</p>;
 }
 
 export default LinkHandler;
