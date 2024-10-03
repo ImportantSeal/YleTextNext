@@ -7,6 +7,7 @@ function App() {
 
   const [pageNumber, setPageNumber] = useState(101); // Alustetaan sivunumero 100
   const [teletextData, setTeletextData] = useState(null); // Tallennetaan API data
+  const [inputPageNumber, setInputPageNumber] = useState(''); // käyttäjän syöttämä sivunumero
 
   // haetaan Teletext-dataa Yle API:sta aina kun pageNumber muuttuu
   useEffect(() => {
@@ -28,6 +29,16 @@ function App() {
 
     fetchData();
   }, [pageNumber]); // haetaan tiedot aina kun pageNumber muuttuu
+
+  // käsitellään käyttäjän syöttämä sivunumero
+  const handlePageNumberSubmit = (e) => {
+    e.preventDefault();
+    const parsedPageNumber = parseInt(inputPageNumber, 10);
+    if (!isNaN(parsedPageNumber)) {
+      setPageNumber(parsedPageNumber); // päivitetään sivunumero, jos se on kelvollinen
+      setInputPageNumber(''); // tyhjennetään syöttölaatikko
+    }
+  };
 
   // tunnistaa kolminumeroiset luvut ja tekee niistä klikattavia linkkejä
   const renderLineWithLinks = (text) => {
@@ -84,7 +95,23 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Teletext Viewer</h1>
+      <h1>YleTextNext</h1>
+
+      <div className= "navigation-box">
+        <form onSubmit={handlePageNumberSubmit}>
+          <label htmlFor='page-number-input'>Siirry Sivulle</label>
+          <input
+          type="text"
+          id="page-number-input"
+          value={inputPageNumber}
+          onChange={(e) => setInputPageNumber(e.target.value)}
+          placeholder= "Syötä sivunumero"
+          />
+          <button type="submit">Siirry</button>
+        </form>
+        <p>Nykyinen sivu: {pageNumber}</p> {/* Näytetään nykyinen sivunumero */}
+      </div>
+
       <div id="teletext-content">
         {renderTeletextContent()}
       </div>
