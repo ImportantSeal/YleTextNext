@@ -1,9 +1,20 @@
 body {
   background-color: #000000;
-  color: #ffffff;
+  color: #cfcfcf;
   font-family: "Courier New", monospace;
   margin: 0;
   padding: 0;
+}
+
+h2 {
+  color: white;
+  font-weight: bold;
+}
+
+h2.pageNumber {
+  font-weight: normal;
+  text-align: right;
+  flex-direction: column;
 }
 
 #teletext-content {
@@ -11,16 +22,16 @@ body {
   margin: 50px auto;
   padding: 20px;
   background-color: #000000;
-  border: 2px solid #ffffff;
+  border: 2px solid #a7a7a7;
   border-radius: 5px;
-  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1); /* Hienovarainen varjo tekee sisällöstä erottuvamman */
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2); /* hienovarainen varjo tekee sisällöstä erottuvamman */
 }
 
 .teletext-line {
   white-space: pre;
   line-height: 0.3em; 
   font-size: 1.1em;   
-  margin-bottom: 1.1em; 
-  letter-spacing: 0.04em; 
+  margin-bottom: 1.2em; 
+  letter-spacing: 0.05em; 
 }
 

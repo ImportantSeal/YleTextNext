@@ -55,7 +55,7 @@ function App() {
             key={index}
             className="page-link"
             onClick={() => setPageNumber(parseInt(part, 10))}
-            style={{ color: 'cyan', cursor: 'pointer' }}
+            style={{ color: 'white', cursor: 'pointer', fontWeight: 'bold'}}
           >
             {part}
           </span>
@@ -76,7 +76,8 @@ function App() {
     if (teletextData && teletextData.teletext && teletextData.teletext.page.subpage) {
       return teletextData.teletext.page.subpage.map((subpage, subpageIndex) => (
         <div key={subpageIndex} className="teletext-subpage">
-          <h2>Sivu {subpage.number}</h2>
+          <h2>{subpage.number}.</h2> {/*Alasivun numero*/}
+          <h2 className='pageNumber'>{pageNumber}</h2>
           {subpage.content.map((item, itemIndex) => {
             if (item.type === 'text') {
               return item.line.map((line, lineIndex) => (
