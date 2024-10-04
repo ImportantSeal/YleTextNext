@@ -8,13 +8,19 @@ body {
 
 h2 {
   color: white;
-  font-weight: bold;
+  font-weight: lighter;
+  font-size: normal;
+  margin-bottom: 4vh;
+
 }
 
 h2.pageNumber {
+  
+  color: #a7a7a7;
   font-weight: normal;
-  text-align: right;
-  flex-direction: column;
+  text-align: left;
+  font-size: medium;
+  margin-bottom: 0vh;
 }
 
 #teletext-content {

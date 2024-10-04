@@ -30,6 +30,7 @@ function App() {
     fetchData();
   }, [pageNumber]); // haetaan tiedot aina kun pageNumber muuttuu
 
+
   // käsitellään käyttäjän syöttämä sivunumero
   const handlePageNumberSubmit = (e) => {
     e.preventDefault();
@@ -39,6 +40,8 @@ function App() {
       setInputPageNumber(''); // tyhjennetään syöttölaatikko
     }
   };
+
+
 
   // tunnistaa kolminumeroiset luvut ja tekee niistä klikattavia linkkejä
   const renderLineWithLinks = (text) => {
@@ -71,13 +74,15 @@ function App() {
     });
   };
 
+
   // Näytetään kaikkien alasivujen sisältö
   const renderTeletextContent = () => {
     if (teletextData && teletextData.teletext && teletextData.teletext.page.subpage) {
       return teletextData.teletext.page.subpage.map((subpage, subpageIndex) => (
         <div key={subpageIndex} className="teletext-subpage">
-          <h2>{subpage.number}.</h2> {/*Alasivun numero*/}
           <h2 className='pageNumber'>{pageNumber}</h2>
+
+          <h2>{subpage.number}.</h2> {/*Alasivun numero*/}
           {subpage.content.map((item, itemIndex) => {
             if (item.type === 'text') {
               return item.line.map((line, lineIndex) => (
@@ -93,6 +98,34 @@ function App() {
     }
     return <div>Ei sisältöä saatavilla.</div>;
   };
+
+
+  // renderöidään seuraava ja edellinen sivu napit
+  const renderNavigationButtons = () => {
+    if (teletextData && teletextData.teletext && teletextData.teletext.page) {
+      const prevPage = teletextData.teletext.page.prevpg;
+      const nextPage = teletextData.teletext.page.nextpg;
+
+      return (
+        <div className="page-navigation">
+          <button
+            onClick={() => setPageNumber(parseInt(prevPage, 10))}
+            disabled={!prevPage} // poistetaan käytöstä, jos ei ole edellistä sivua
+          >
+            Edellinen sivu
+          </button>
+          <button
+            onClick={() => setPageNumber(parseInt(nextPage, 10))}
+            disabled={!nextPage} // poistetaan käytöstä, jos ei ole seuraavaa sivua
+          >
+            Seuraava sivu
+          </button>
+        </div>
+      );
+    }
+    return null;
+  };
+
 
   return (
     <div className="App">
@@ -110,12 +143,14 @@ function App() {
           />
           <button type="submit">Siirry</button>
         </form>
-        <p>Nykyinen sivu: {pageNumber}</p> {/* Näytetään nykyinen sivunumero */}
+        <p>Nykyinen sivu: {pageNumber}</p> {/* Nykyinen sivunumero */}
       </div>
 
       <div id="teletext-content">
         {renderTeletextContent()}
       </div>
+
+      {renderNavigationButtons()} {/* Navigointinapit */}
     </div>
   );
 }
