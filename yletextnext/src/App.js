@@ -81,8 +81,6 @@ function App() {
       return teletextData.teletext.page.subpage.map((subpage, subpageIndex) => (
         <div key={subpageIndex} className="teletext-subpage">
           <h2 className='pageNumber'>{pageNumber}</h2>
-
-          <h2>{subpage.number}.</h2> {/*Alasivun numero*/}
           {subpage.content.map((item, itemIndex) => {
             if (item.type === 'text') {
               return item.line.map((line, lineIndex) => (
@@ -112,13 +110,13 @@ function App() {
             onClick={() => setPageNumber(parseInt(prevPage, 10))}
             disabled={!prevPage} // poistetaan käytöstä, jos ei ole edellistä sivua
           >
-            Edellinen sivu
+            {"<"} {prevPage}
           </button>
           <button
             onClick={() => setPageNumber(parseInt(nextPage, 10))}
             disabled={!nextPage} // poistetaan käytöstä, jos ei ole seuraavaa sivua
           >
-            Seuraava sivu
+           {nextPage} {">"}
           </button>
         </div>
       );
@@ -133,7 +131,6 @@ function App() {
 
       <div className= "navigation-box">
         <form onSubmit={handlePageNumberSubmit}>
-          <label htmlFor='page-number-input'>Siirry Sivulle</label>
           <input
           type="text"
           id="page-number-input"
@@ -141,16 +138,14 @@ function App() {
           onChange={(e) => setInputPageNumber(e.target.value)}
           placeholder= "Syötä sivunumero"
           />
-          <button type="submit">Siirry</button>
-        </form>
-        <p>Nykyinen sivu: {pageNumber}</p> {/* Nykyinen sivunumero */}
+          <button type="submit">Hae</button>
+          </form>
+        {renderNavigationButtons()}
       </div>
 
       <div id="teletext-content">
         {renderTeletextContent()}
       </div>
-
-      {renderNavigationButtons()} {/* Navigointinapit */}
     </div>
   );
 }

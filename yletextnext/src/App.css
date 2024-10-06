@@ -4,6 +4,8 @@ body {
   font-family: "Courier New", monospace;
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: center;
 }
 
 h2 {
@@ -15,7 +17,6 @@ h2 {
 }
 
 h2.pageNumber {
-  
   color: #a7a7a7;
   font-weight: normal;
   text-align: left;
@@ -29,8 +30,7 @@ h2.pageNumber {
   padding: 20px;
   background-color: #000000;
   border: 2px solid #a7a7a7;
-  border-radius: 5px;
-  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2); /* hienovarainen varjo tekee sisällöstä erottuvamman */
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2); 
 }
 
 .teletext-line {
@@ -39,5 +39,48 @@ h2.pageNumber {
   font-size: 1.1em;   
   margin-bottom: 1.2em; 
   letter-spacing: 0.05em; 
+}
+
+button{
+  padding: 10px 20px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.1em;
+  background-color: black;
+  color: white;
+  border: 2px solid #a7a7a7;
+  cursor: pointer;
+}
+
+input{
+  padding: 10px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.1em;
+  border: 2px solid #a7a7a7;
+  background-color: black;
+  color: white;
+  text-align: center;
+  width: 200px;
+  transition: border-color 0.1.5s ease, background-color 0.1.5s ease, color 0.1.5s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: white;
+  background-color: white;
+  color: black;
+}
+
+.navigation-box{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.page-navigation {
+  display: flex;
+  justify-content: flex-end;
 }
 
