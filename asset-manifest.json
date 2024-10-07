@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/YleTextNext/static/css/main.c00e94dc.css",
+    "main.js": "/YleTextNext/static/js/main.a8369c72.js",
+    "static/js/453.ebccdbf3.chunk.js": "/YleTextNext/static/js/453.ebccdbf3.chunk.js",
+    "index.html": "/YleTextNext/index.html",
+    "main.c00e94dc.css.map": "/YleTextNext/static/css/main.c00e94dc.css.map",
+    "main.a8369c72.js.map": "/YleTextNext/static/js/main.a8369c72.js.map",
+    "453.ebccdbf3.chunk.js.map": "/YleTextNext/static/js/453.ebccdbf3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c00e94dc.css",
+    "static/js/main.a8369c72.js"
+  ]
+}
