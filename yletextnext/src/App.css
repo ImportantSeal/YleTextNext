@@ -8,12 +8,17 @@ body {
   justify-content: center;
 }
 
+h1 {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: normal;
+  color: white;
+}
+
 h2 {
   color: white;
   font-weight: lighter;
   font-size: normal;
   margin-bottom: 4vh;
-
 }
 
 h2.pageNumber {
@@ -25,23 +30,21 @@ h2.pageNumber {
 }
 
 #teletext-content {
-  width: 500px;
-  margin: 50px auto;
+  width: auto;
   padding: 20px;
   background-color: #000000;
   border: 2px solid #a7a7a7;
-  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2); 
 }
 
 .teletext-line {
   white-space: pre;
-  line-height: 0.3em; 
-  font-size: 1.1em;   
-  margin-bottom: 1.2em; 
-  letter-spacing: 0.05em; 
+  line-height: 0.3em;
+  font-size: 1.1em;
+  margin-bottom: 1.2em;
+  letter-spacing: 0.05em;
 }
 
-button{
+button {
   padding: 10px 20px;
   font-family: "Courier New", Courier, monospace;
   font-size: 1.1em;
@@ -51,7 +54,7 @@ button{
   cursor: pointer;
 }
 
-input{
+input {
   padding: 10px;
   font-family: "Courier New", Courier, monospace;
   font-size: 1.1em;
@@ -60,7 +63,7 @@ input{
   color: white;
   text-align: center;
   width: 200px;
-  transition: border-color 0.1.5s ease, background-color 0.1.5s ease, color 0.1.5s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
 }
 
 input:focus {
@@ -70,13 +73,17 @@ input:focus {
   color: black;
 }
 
-.navigation-box{
+.navigation-box {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  margin-bottom: 10px; 
+  width: 500px;
   position: sticky;
-  top: 0;
-  z-index: 100;
+  top: 0; 
+  z-index: 1000; 
+  background-color: #000000; 
+  padding: 10px 0; 
 }
 
 .page-navigation {
@@ -84,3 +91,33 @@ input:focus {
   justify-content: flex-end;
 }
 
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+#table-of-contents {
+  margin-left: 30px;
+  padding: 10px;
+  background-color: #000000;
+  width: auto;
+  height: auto;
+  position: sticky;
+  top: 60px;
+  z-index: 999;
+}
+
+
+
+#table-of-contents li {
+  color: #a7a7a7;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.1em;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#table-of-contents li:hover {
+  color: white;
+}

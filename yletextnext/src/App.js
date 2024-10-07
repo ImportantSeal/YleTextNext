@@ -125,29 +125,48 @@ function App() {
   };
 
 
+
+
   return (
     <div className="App">
       <h1>YleTextNext</h1>
-
-      <div className= "navigation-box">
+      <div className="navigation-box">
         <form onSubmit={handlePageNumberSubmit}>
           <input
-          type="text"
-          id="page-number-input"
-          value={inputPageNumber}
-          onChange={(e) => setInputPageNumber(e.target.value)}
-          placeholder= "Syötä sivunumero"
+            type="text"
+            id="page-number-input"
+            value={inputPageNumber}
+            onChange={(e) => setInputPageNumber(e.target.value)}
+            placeholder="Syötä sivunumero"
           />
           <button type="submit">Hae</button>
-          </form>
+        </form>
         {renderNavigationButtons()}
       </div>
-
-      <div id="teletext-content">
-        {renderTeletextContent()}
+  
+      <div className="main-container">
+        <div id="teletext-content">{renderTeletextContent()}</div>
+        <div id="table-of-contents">
+          <ul>
+            <li onClick={() => setPageNumber(101)}>101 UUTISET</li>
+            <li onClick={() => setPageNumber(160)}>160 TALOUS</li>
+            <li onClick={() => setPageNumber(190)}>190 ENGLISH</li>
+            <li onClick={() => setPageNumber(201)}>201 URHEILU</li>
+            <li onClick={() => setPageNumber(350)}>350 RADIOT</li>
+            <li onClick={() => setPageNumber(470)}>470 VEIKKAUS</li>
+            <li onClick={() => setPageNumber(300)}>300 OHJELMAT</li>
+            <li onClick={() => setPageNumber(400)}>400 SÄÄ</li>
+            <li onClick={() => setPageNumber(575)}>575 TEKSTI-TV</li>
+            <li onClick={() => setPageNumber(799)}>799 SVENSKA</li>
+            <li onClick={() => setPageNumber(500)}>500 ALUEET</li>
+            <li onClick={() => setPageNumber(890)}>890 KALENTERI</li>
+          </ul>
+        </div>
       </div>
     </div>
   );
+
+  
 }
 
 export default App;
